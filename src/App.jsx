@@ -83,7 +83,8 @@ return (
         <button
           className="action-button"
           aria-label="Restart the quiz"
-          onClick={() => {
+          onClick={(event) => {
+            event.currentTarget.blur();
             myQuestFunc(0);
             myScoreFunc(0);
             myShowScoreFunc(false);
@@ -96,7 +97,6 @@ return (
       </div>
     ) : (
       <div className="question-card">
-        {/* aria-live ensures the screen reader reads new questions immediately */}
         <h2 className="question-text" aria-live="polite">
           {myQuestArr[myQuestVar].myQuestKey}
         </h2>
@@ -108,7 +108,6 @@ return (
               className="option-button"
               onClick={() => myAnswerClick(myOption)}
               disabled={mySubmitted}
-              /* aria-pressed helps screen readers know if this was the chosen one */
               aria-pressed={mySelectedOpt === myOption}
               style={{
                 backgroundColor:
@@ -119,10 +118,8 @@ return (
                       : "",
               }}
             >
-              {/* aria-hidden hides the icon from screen readers to prevent clutter */}
               <span className="button-icon" aria-hidden="true">{myIconArr[myIndex]}</span>
               {myOption}
-              {/* Visually hidden text for screen readers only */}
               {mySubmitted && myOption === myQuestArr[myQuestVar].myAnsKey && (
                 <span className="sr-only"> (Correct Answer)</span>
               )}

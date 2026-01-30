@@ -59,14 +59,7 @@ body {
 	text-align: left;
 	padding: 8px 16px;
 }
-.option-button:not(:disabled):hover {
-	background-color: #E97725;
-}
-.option-button:not(:disabled):hover .button-icon {
-	transform: scale(1.1);
-	background-color: #291905;
-	border-color: #F2CB9C;
-}
+
 .button-icon {
 	width: 40px;
 	height: 40px;
@@ -99,20 +92,14 @@ body {
 	opacity: 0.6;
 	pointer-events: none;
 }
-.action-button:not(:disabled):hover {
-	background-color: #ec8944;
-	border-color: #1C1C21;
-}
 .action-button:active {
+	background-color: #E97725;
 	transform: scale(0.98);
 }
 button:disabled {
 	opacity: 0.9;
 	pointer-events: none;
 	cursor: not-allowed;
-}
-button:hover {
-	border-color: #1C1C21;
 }
 .progress-footer {
 	font-size: 0.9rem;
@@ -195,7 +182,8 @@ button:focus-visible {
 }
 
 
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
+  /* This ONLY fires if the user is using a mouse/trackpad */
   .option-button:not(:disabled):hover {
     background-color: #E97725;
     border-color: #1C1C21;
@@ -213,9 +201,10 @@ button:focus-visible {
   }
 }
 
-.option-button:active {
+/* 3. For the "Try Again" transition: Active state provides feedback without sticking */
+.option-button:active, .action-button:active {
   background-color: #E97725;
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 
