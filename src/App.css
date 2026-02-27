@@ -1,170 +1,194 @@
 body {
-	margin: 0;
-	padding: 0;
-	min-height: 100vh;
-	background-image: url("assets/background.jpg");
-	background-size: cover;
-	background-position: center;
-	background-attachment: fixed;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-image: url("assets/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .quiz-container {
-	max-width: 500px;
-	margin: 40px auto;
-	padding: 24px;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	text-align: center;
-	background-color: rgba(49, 48, 58, 0.95);
-	border-radius: 32px;
-	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-	min-height: 550px;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 24px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
+  background-color: rgba(49, 48, 58, 0.95);
+  border-radius: 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  min-height: 550px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .top-content {
-	flex: 1;
+  flex: 1;
 }
-.question-card, .results-screen {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
+.question-card,
+.results-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .question-text {
-	font-weight: bold;
-	line-height: 1.4;
-	margin-top: 8px;
-	color: #FFFFFF;
-	font-size: 1.4rem;
-	letter-spacing: 0.5px;
-	text-align: left;
-	min-height: 5.5rem;
-	margin-bottom: 5px;
+  font-weight: bold;
+  line-height: 1.4;
+  margin-top: 8px;
+  color: #ffffff;
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+  text-align: left;
+  /* FIX 5 — removed fixed min-height so text reflows correctly at
+	   200% browser zoom (WCAG 1.4.4 Resize Text). Padding replaces it
+	   to keep the same visual breathing room. */
+  padding-bottom: 0.5rem;
+  margin-bottom: 5px;
 }
 .option-button {
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	width: 100%;
-	margin: 16px 0;
-	font-size: 16px;
-	cursor: pointer;
-	border: 4px solid #777;
-	border-radius: 48px;
-	color: #291905;
-	background-color: #F2CB9C;
-	transition: background-color 0.2s;
-	text-align: left;
-	padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin: 16px 0;
+  font-size: 16px;
+  cursor: pointer;
+  border: 4px solid #777;
+  border-radius: 48px;
+  color: #291905;
+  background-color: #f2cb9c;
+  transition: background-color 0.2s;
+  text-align: left;
+  padding: 8px 16px;
+  box-sizing: border-box;
+}
+.button-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e97725;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 15px;
+  flex-shrink: 0;
+  border: 2px solid #291905;
+  font-size: 20px;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
 }
 
-.button-icon {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	background-color: #E97725;
-	color: #fff;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-right: 15px;
-	flex-shrink: 0;
-	border: 2px solid #291905;
-	font-size: 20px;
-	transition: transform 0.3s ease, background-color 0.3s ease;
+/* FIX 4 — result icon sits at the right edge of the button so it
+   never disrupts the existing layout but adds a non-color signal. */
+.result-icon {
+  margin-left: auto;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding-right: 4px;
 }
+
 .action-button {
-	margin-top: 20px;
-	padding: 12px 28px;
-	font-size: 16px;
-	background-color: #F2CB9C;
-	color: #291905;
-	border: 4px solid #777;
-	border-radius: 48px;
-	cursor: pointer;
+  margin-top: 20px;
+  padding: 12px 28px;
+  font-size: 16px;
+  background-color: #f2cb9c;
+  color: #291905;
+  border: 4px solid #777;
+  border-radius: 48px;
+  cursor: pointer;
 }
 .action-button:disabled {
-	background-color: rgba(119, 119, 119, 0.5);
-	border-color: #777;
-	cursor: not-allowed;
-	opacity: 0.6;
-	pointer-events: none;
+  background-color: rgba(119, 119, 119, 0.5);
+  border-color: #777;
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
 }
 .action-button:active {
-	background-color: #E97725;
-	transform: scale(0.98);
+  background-color: #e97725;
+  transform: scale(0.98);
 }
 button:disabled {
-	opacity: 0.9;
-	pointer-events: none;
-	cursor: not-allowed;
-}
-.progress-footer {
-	font-size: 0.9rem;
-	color: #fafafa;
-	text-align: left;
-}
-.bottom-nav-container {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-top: 14px;
-	padding-top: 20px;
-	border-top: 2px solid rgba(255, 255, 255, 0.1);
-}
-.feedback-row {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 80px;
-	margin-top: 10px;
-}
-.bottom-nav-container .action-button {
-	margin-top: 0;
-}
-.feedback-text {
-	color: #FFFFFF;
-	font-style: italic;
-	font-size: 1rem;
-	background-color: rgba(255, 255, 255, 0.1);
-	padding: 10px;
-	border-radius: 12px;
-	margin-top: 10px;
-}
-.results-screen {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 40px 0;
-	flex: 1;
-	justify-content: center;
-	text-align: center;
-}
-.results-screen h2 {
-	font-size: 2rem;
-	color: #F2CB9C;
-	margin-bottom: 20px;
-}
-.question-card {
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	flex: 1;
-}
-.options-list {
-	margin-top: 10px;
-}
-.feedback-row {
-	margin-top: auto;
-	height: 80px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  opacity: 0.9;
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
+/* FIX 6 — explicit disabled focus style so keyboard users can still
+   see where focus is on answered (disabled) option buttons. Dashed
+   outline differentiates it from the active focus style. */
+button:disabled:focus-visible {
+  outline: 3px dashed #aaa;
+  outline-offset: 4px;
+}
+
+.progress-footer {
+  font-size: 0.9rem;
+  color: #fafafa;
+  text-align: left;
+}
+.bottom-nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 20px;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+.feedback-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  margin-top: 10px;
+}
+.bottom-nav-container .action-button {
+  margin-top: 0;
+}
+.feedback-text {
+  color: #ffffff;
+  font-style: italic;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 12px;
+  margin-top: 10px;
+}
+.results-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  flex: 1;
+  justify-content: center;
+  text-align: center;
+}
+.results-screen h2 {
+  font-size: 2rem;
+  color: #f2cb9c;
+  margin-bottom: 20px;
+}
+.question-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex: 1;
+}
+.options-list {
+  margin-top: 10px;
+}
+.feedback-row {
+  margin-top: auto;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .sr-only {
   position: absolute;
@@ -177,64 +201,61 @@ button:disabled {
   border: 0;
 }
 button:focus-visible {
-  outline: 3px solid #F2CB9C;
+  outline: 3px solid #f2cb9c;
   outline-offset: 4px;
 }
 
-
 @media (hover: hover) and (pointer: fine) {
-  /* This ONLY fires if the user is using a mouse/trackpad */
   .option-button:not(:disabled):hover {
-    background-color: #E97725;
-    border-color: #1C1C21;
+    background-color: #e97725;
+    border-color: #1c1c21;
   }
 
   .option-button:not(:disabled):hover .button-icon {
     transform: scale(1.1);
     background-color: #291905;
-    border-color: #F2CB9C;
+    border-color: #f2cb9c;
   }
 
   .action-button:not(:disabled):hover {
     background-color: #ec8944;
-    border-color: #1C1C21;
+    border-color: #1c1c21;
   }
 }
 
-/* 3. For the "Try Again" transition: Active state provides feedback without sticking */
-.option-button:active, .action-button:active {
-  background-color: #E97725;
+.option-button:active,
+.action-button:active {
+  background-color: #e97725;
   transform: scale(0.97);
 }
 
-
 @media (max-width: 480px) {
-	.quiz-container {
-		height: auto;
-		min-height: 500px;
-		max-height: 95vh;
-		margin: 10px;
-		margin-top: 0;
-		padding: 20px;
-		border-radius: 24px;
-		overflow-y: auto;
-	}
-	.question-text {
-		font-size: 1.2rem;
-		min-height: 4.5rem;
-		margin-bottom: 5px;
-	}
-	.feedback-text {
-		margin-bottom: 4px;
-	}
-	.feedback-row {
-		height: 60px;
-	}
-	.option-button {
-		margin: 8px 0;
-		padding: 10px 14px;
-	}
-	.results-screen h2 {
-		font-size: 1.5rem;
-	}
+  .quiz-container {
+    height: auto;
+    min-height: 500px;
+    max-height: 95vh;
+    margin: 10px;
+    margin-top: 0;
+    padding: 20px;
+    border-radius: 24px;
+    overflow-y: auto;
+  }
+  .question-text {
+    font-size: 1.2rem;
+    padding-bottom: 0.4rem;
+    margin-bottom: 5px;
+  }
+  .feedback-text {
+    margin-bottom: 4px;
+  }
+  .feedback-row {
+    height: 60px;
+  }
+  .option-button {
+    margin: 8px 0;
+    padding: 10px 14px;
+  }
+  .results-screen h2 {
+    font-size: 1.5rem;
+  }
 }

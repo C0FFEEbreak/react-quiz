@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 const myQuestArr = [
@@ -47,11 +47,9 @@ export default function QuizApp() {
   const [myQuestVar, myQuestFunc] = useState(0);
   const [myScoreVar, myScoreFunc] = useState(0);
   const [myShowScoreVar, myShowScoreFunc] = useState(false);
-  //1. NEXT BUTTON
   const [mySubmitted, mySetSubmitted] = useState(false);
   const [mySelectedOpt, mySetSelectedOpt] = useState(null);
 
-  // 2. NEXT BUTTON
   const myAnswerClick = (myOption) => {
     mySetSelectedOpt(myOption);
     if (myOption === myQuestArr[myQuestVar].myAnsKey) {
@@ -60,7 +58,6 @@ export default function QuizApp() {
     mySetSubmitted(true);
   };
 
-  // 3. NEXT BUTTON
   const myNextClick = () => {
     const myNextQuest = myQuestVar + 1;
     if (myNextQuest < myQuestArr.length) {
@@ -72,11 +69,30 @@ export default function QuizApp() {
     }
   };
 
+  useEffect(() => {
+    if (myShowScoreVar) {
+      document.querySelector(".results-screen h2")?.focus();
+    }
+  }, [myShowScoreVar]);
+
   return (
     <main className="quiz-container" role="main">
+      <h1 className="sr-only">Activity Quiz</h1>
+
+      <div
+        className="sr-only"
+        role="status"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        {myShowScoreVar
+          ? `Quiz completed. You scored ${myScoreVar} out of ${myQuestArr.length}.`
+          : ""}
+      </div>
+
       {myShowScoreVar ? (
-        <div className="results-screen" role="alert">
-          <h2>Quiz Completed</h2>
+        <div className="results-screen">
+          <h2 tabIndex="-1">Quiz Completed</h2>
           <p className="question-text">
             You scored {myScoreVar} out of {myQuestArr.length}
           </p>
@@ -100,38 +116,59 @@ export default function QuizApp() {
           <h2 className="question-text" aria-live="polite">
             {myQuestArr[myQuestVar].myQuestKey}
           </h2>
+          <div role="radiogroup" aria-label="Answer options">
+            {myQuestArr[myQuestVar].myOptKey.map((myOption, myIndex) => {
+              const isCorrect = myOption === myQuestArr[myQuestVar].myAnsKey;
+              const isSelected = myOption === mySelectedOpt;
+              const isWrong = mySubmitted && isSelected && !isCorrect;
 
-          <div
-            className="options-list"
-            role="radiogroup"
-            aria-label="Answer options"
-          >
-            {myQuestArr[myQuestVar].myOptKey.map((myOption, myIndex) => (
-              <button
-                key={myOption}
-                className="option-button"
-                onClick={() => myAnswerClick(myOption)}
-                disabled={mySubmitted}
-                aria-pressed={mySelectedOpt === myOption}
-                style={{
-                  backgroundColor:
-                    mySubmitted && myOption === myQuestArr[myQuestVar].myAnsKey
-                      ? "#4CAF50"
-                      : mySubmitted && myOption === mySelectedOpt
-                        ? "#F44336"
-                        : "",
-                }}
-              >
-                <span className="button-icon" aria-hidden="true">
-                  {myIconArr[myIndex]}
-                </span>
-                {myOption}
-                {mySubmitted &&
-                  myOption === myQuestArr[myQuestVar].myAnsKey && (
+              return (
+                <label
+                  key={myOption}
+                  className={`option-button ${isSelected ? "selected" : ""}`}
+                  style={{
+                    backgroundColor:
+                      mySubmitted && isCorrect
+                        ? "#4CAF50"
+                        : mySubmitted && isSelected
+                          ? "#F44336"
+                          : "",
+                  }}
+                >
+                  {/* Visually hidden but keyboard-accessible radio input */}
+                  <input
+                    type="radio"
+                    name={`question-${myQuestVar}`}
+                    value={myOption}
+                    checked={isSelected}
+                    onChange={() => myAnswerClick(myOption)}
+                    className="sr-only"
+                  />
+
+                  <span className="button-icon" aria-hidden="true">
+                    {myIconArr[myIndex]}
+                  </span>
+
+                  {myOption}
+
+                  {mySubmitted && isCorrect && (
+                    <span className="result-icon" aria-hidden="true">
+                      ✓
+                    </span>
+                  )}
+                  {isWrong && (
+                    <span className="result-icon" aria-hidden="true">
+                      ✗
+                    </span>
+                  )}
+
+                  {mySubmitted && isCorrect && (
                     <span className="sr-only"> (Correct Answer)</span>
                   )}
-              </button>
-            ))}
+                  {isWrong && <span className="sr-only"> (Incorrect)</span>}
+                </label>
+              );
+            })}
           </div>
 
           <div className="feedback-row" aria-live="assertive">
