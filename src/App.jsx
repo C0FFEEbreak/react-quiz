@@ -72,87 +72,94 @@ export default function QuizApp() {
     }
   };
 
-return (
-  <main className="quiz-container" role="main">
-    {myShowScoreVar ? (
-      <div className="results-screen" role="alert">
-        <h2>Quiz Completed</h2>
-        <p className="question-text">
-          You scored {myScoreVar} out of {myQuestArr.length}
-        </p>
-        <button
-          className="action-button"
-          aria-label="Restart the quiz"
-          onClick={(event) => {
-            event.currentTarget.blur();
-            myQuestFunc(0);
-            myScoreFunc(0);
-            myShowScoreFunc(false);
-            mySetSubmitted(false);
-            mySetSelectedOpt(null);
-          }}
-        >
-          Try Again
-        </button>
-      </div>
-    ) : (
-      <div className="question-card">
-        <h2 className="question-text" aria-live="polite">
-          {myQuestArr[myQuestVar].myQuestKey}
-        </h2>
-        
-        <div className="options-list" role="radiogroup" aria-label="Answer options">
-          {myQuestArr[myQuestVar].myOptKey.map((myOption, myIndex) => (
-            <button
-              key={myOption}
-              className="option-button"
-              onClick={() => myAnswerClick(myOption)}
-              disabled={mySubmitted}
-              aria-pressed={mySelectedOpt === myOption}
-              style={{
-                backgroundColor:
-                  mySubmitted && myOption === myQuestArr[myQuestVar].myAnsKey
-                    ? "#4CAF50"
-                    : mySubmitted && myOption === mySelectedOpt
-                      ? "#F44336"
-                      : "",
-              }}
-            >
-              <span className="button-icon" aria-hidden="true">{myIconArr[myIndex]}</span>
-              {myOption}
-              {mySubmitted && myOption === myQuestArr[myQuestVar].myAnsKey && (
-                <span className="sr-only"> (Correct Answer)</span>
-              )}
-            </button>
-          ))}
-        </div>
-
-        <div className="feedback-row" aria-live="assertive">
-          {mySubmitted && (
-            <p className="feedback-text">
-              {mySelectedOpt === myQuestArr[myQuestVar].myAnsKey
-                ? "That's correct. Great job!"
-                : `Incorrect. The correct answer is: ${myQuestArr[myQuestVar].myAnsKey}`}
-            </p>
-          )}
-        </div>
-
-        <div className="bottom-nav-container">
-          <div className="progress-footer">
-            Question {myQuestVar + 1} of {myQuestArr.length}
-          </div>
-
+  return (
+    <main className="quiz-container" role="main">
+      {myShowScoreVar ? (
+        <div className="results-screen" role="alert">
+          <h2>Quiz Completed</h2>
+          <p className="question-text">
+            You scored {myScoreVar} out of {myQuestArr.length}
+          </p>
           <button
             className="action-button"
-            onClick={myNextClick}
-            disabled={!mySubmitted}
-            aria-label="Go to next question"
+            aria-label="Restart the quiz"
+            onClick={(event) => {
+              event.currentTarget.blur();
+              myQuestFunc(0);
+              myScoreFunc(0);
+              myShowScoreFunc(false);
+              mySetSubmitted(false);
+              mySetSelectedOpt(null);
+            }}
           >
-            Next
+            Try Again
           </button>
         </div>
-      </div>
-    )}
-  </main>
-);
+      ) : (
+        <div className="question-card">
+          <h2 className="question-text" aria-live="polite">
+            {myQuestArr[myQuestVar].myQuestKey}
+          </h2>
+
+          <div
+            className="options-list"
+            role="radiogroup"
+            aria-label="Answer options"
+          >
+            {myQuestArr[myQuestVar].myOptKey.map((myOption, myIndex) => (
+              <button
+                key={myOption}
+                className="option-button"
+                onClick={() => myAnswerClick(myOption)}
+                disabled={mySubmitted}
+                aria-pressed={mySelectedOpt === myOption}
+                style={{
+                  backgroundColor:
+                    mySubmitted && myOption === myQuestArr[myQuestVar].myAnsKey
+                      ? "#4CAF50"
+                      : mySubmitted && myOption === mySelectedOpt
+                        ? "#F44336"
+                        : "",
+                }}
+              >
+                <span className="button-icon" aria-hidden="true">
+                  {myIconArr[myIndex]}
+                </span>
+                {myOption}
+                {mySubmitted &&
+                  myOption === myQuestArr[myQuestVar].myAnsKey && (
+                    <span className="sr-only"> (Correct Answer)</span>
+                  )}
+              </button>
+            ))}
+          </div>
+
+          <div className="feedback-row" aria-live="assertive">
+            {mySubmitted && (
+              <p className="feedback-text">
+                {mySelectedOpt === myQuestArr[myQuestVar].myAnsKey
+                  ? "That's correct. Great job!"
+                  : `Incorrect. The correct answer is: ${myQuestArr[myQuestVar].myAnsKey}`}
+              </p>
+            )}
+          </div>
+
+          <div className="bottom-nav-container">
+            <div className="progress-footer">
+              Question {myQuestVar + 1} of {myQuestArr.length}
+            </div>
+
+            <button
+              className="action-button"
+              onClick={myNextClick}
+              disabled={!mySubmitted}
+              aria-label="Go to next question"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
+    </main>
+  );
 }
